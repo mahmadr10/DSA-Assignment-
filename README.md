@@ -4,24 +4,29 @@ TASK 1
 
 CPU Scheduling Simulation
 Approach
-This program simulates a simple CPU scheduling mechanism using a circular linked list. Each node represents a process in the system, with an associated process ID, execution time, and remaining time. The scheduling is done in cycles where each process is executed for a fixed time slice until its remaining time becomes zero, at which point it is removed from the list.
+This project simulates a Round-Robin CPU scheduling system using a circular linked list to represent processes. Each process runs for a fixed time slice in each cycle, and the system supports the arrival of a new process during the scheduling simulation.
 
-The program contains the following key steps:
+Key steps in the approach:
 
-Circular Linked List Structure: The processes are arranged in a circular linked list to model round-robin scheduling.
-Node Class: Each process is represented as a node in the linked list, containing the process ID, execution time, and remaining time.
-CPU Class: The CPU class handles the scheduling, process execution, and process removal.
-Process Execution: Each process is executed in a cycle, with its remaining time reduced by the time slice. Once the remaining time is exhausted, the process is marked as complete and removed from the list.
-Display of Remaining Processes: After each time slice, the list of remaining processes is displayed.
+Circular Linked List for Processes: Each process is stored in a circular linked list. This ensures that after a process finishes its time slice, the next process in line gets scheduled.
+CPU Scheduling: The CPU scheduling happens in cycles. Each process gets a fixed time slice to execute in each cycle. After the time slice, the remaining time of the process is updated, and if a process completes its execution, it is removed from the queue.
+New Process Arrival: During the simulation, a new process is added to the list after a specified cycle (e.g., after cycle 2), and the system dynamically handles it.
+Display of Process States: After each process executes in a cycle, the updated state (remaining time) of all processes is displayed.
 Assumptions
-Each process has a fixed execution time.
-The time slice for scheduling is given and reduces the remaining time of the current process.
-Once the remaining time of a process becomes zero, it is removed from the list.
-The processes are arranged in a circular linked list for efficient scheduling in a round-robin manner.
+Time Slice: Each process is given a fixed time slice of 3 units per cycle.
+New Process Arrival: A new process arrives after the second cycle with a specified remaining time.
+Fixed Number of Cycles: The simulation is run for a set number of cycles, specified by the user.
+Process Completion: If a process’s remaining time reaches zero or below, it is considered complete and removed from the queue.
+
+
 Challenges Faced
-Circular Linked List Implementation: Properly implementing the circular nature of the linked list was tricky when adding and removing nodes while ensuring the list remains circular.
-Process Removal: Managing node deletion without breaking the circular nature of the list was a challenge, especially when the process being removed was the head of the list.
-Edge Cases: Handling edge cases, such as only one process remaining in the system, required careful attention.
+Circular Linked List Management: Ensuring correct circular linked list behavior, especially while deleting a process, took some effort, as it was necessary to keep the circular nature intact even after process removal.
+Dynamic Process Arrival: Handling the addition of a new process in the middle of the simulation required careful synchronization of process management and scheduling.
+Edge Cases: Managing cases like when all processes complete within the cycle limit or when a new process arrives after some have completed posed some challenges.
+Real-Time Display: Displaying the current state of all processes after every execution cycle to keep track of their status in real-time was tricky, especially while handling process deletion.
 
 OUTPUT:
-![image](https://github.com/user-attachments/assets/4f28f30f-f2d7-45bb-aa46-e6039298b726)
+
+![image](https://github.com/user-attachments/assets/c8e4b4c4-acf9-4904-bd5b-a8fe87101921)
+![image](https://github.com/user-attachments/assets/20cdb5a1-6335-4b90-9596-4a955a1aaeba)
+
