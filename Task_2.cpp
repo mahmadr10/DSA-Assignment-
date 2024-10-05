@@ -6,139 +6,144 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <ctime>
+#include <cmath>
+#include <stdexcept>
 
 using namespace std;
 
 class Node {
 public:
-    uint64_t value; // Each node holds a 64-bit value
-    Node* next;     
+    unsigned int data; 
+    Node* next;
+    Node* prev; 
 
-    Node(uint64_t val) : value(val), next(nullptr) {} // Constructor 
-};
-
-// LinkedList class 
-class LinkedList {
-private:
-    Node* head;
-
-public:
-    LinkedList() : head(nullptr) {} // Constructor
-
-    // Function to append a new node
-    void append(uint64_t val) {
-        if (!head) {
-            head = new Node(val); 
-            return;
-        }
-        Node* current = head;
-        while (current->next) { 
-            current = current->next;
-        }
-        current->next = new Node(val); 
+    // Constructor to initialize node with integer data
+    Node(unsigned int data) {
+        this->data = data;
+        this->next = NULL;
+        this->prev = NULL;
     }
 
-    // Function to get the head of the linked list
-    Node* getHead() const {
-        return head;
-    }
-
-    // Destructor to clean up allocated memory for the linked list
-    ~LinkedList() {
-        Node* current = head;
-        while (current) {
-            Node* next = current->next;
-            delete current; 
-            current = next; 
-        }
-    }
-};
-
-// Function for modular exponentiation, used in primality testing
-uint64_t mod_exp(uint64_t base, uint64_t exp, uint64_t mod) {
-    uint64_t result = 1;
-    base = base % mod; 
-    while (exp > 0) {
-        if (exp % 2 == 1) { 
-            result = (result * base) % mod;
-        }
-        exp >>= 1; 
-        base = (base * base) % mod; 
-    }
-    return result;
-}
-
-// Function to check if the number represented by the linked list is prime
-bool is_prime(LinkedList& list, int k = 5) {
-    uint64_t n = 0; 
-    Node* current = list.getHead();
-    int shift = 0;
-
-    // Reconstruct the full number from the linked list
-    while (current) {
-        n |= (current->value << shift); 
-        shift += 64;
-        current = current->next;
-    }
-
-    // Handle small numbers and check for evenness
-    if (n <= 1) return false;
-    if (n <= 3) return true;
-    if (n % 2 == 0) return false;
-
-    // Decompose n-1 into d * 2^r
-    uint64_t r = 0, d = n - 1;
-    while (d % 2 == 0) {
-        d /= 2;
-        r++;
-    }
-
-    // Miller-Rabin primality test
-    for (int i = 0; i < k; i++) {
-        uint64_t a = 2 + rand() % (n - 4); // Random base
-        uint64_t x = mod_exp(a, d, n); // a^d % n
-
-        if (x == 1 || x == n - 1) continue; // Check if x is a trivial witness
-
-        bool found = false;
-        for (uint64_t j = 0; j < r - 1; j++) {
-            x = (x * x) % n; 
-            if (x == n - 1) {
-                found = true; 
-                break;
+    // Constructor to initialize node with string data
+    Node(string data) {
+        // Checking if the string represents a number too large for a 32-bit integer
+        if (data.size() == 10) {
+            if (data[0] >= '3') {
+                throw invalid_argument("Number is too large to store in 32-bit unsigned integer");
+            } else if (data[0] == '2') {
+                if (data > "2147483647") {
+                    throw invalid_argument("Number is too large to store in 32-bit unsigned integer");
+                }
             }
         }
-        if (!found) return false; // n is composite
+        // Convert string to integer and initialize node
+        this->data = stoi(data);
+        this->next = NULL;
+        this->prev = NULL;
     }
-    return true; // n is prime
-}
 
-// Function to format the 1024-bit number from the linked list for output
-string format_large_number(LinkedList& list) {
-    string large_number = "";
-    Node* current = list.getHead();
-    while (current) {
-        large_number = to_string(current->value) + large_number;
-        current = current->next;
+    // Method to get the length of the integer stored in the node
+    int getLengthofInt() {
+        int temp = this->data;
+        int count = 0;
+        if (temp == 0) return 1; 
+        while (temp > 0) {
+            temp = temp / 10;
+            count++;
+        }
+        return count;
     }
-    return large_number; 
-}
+
+    // Method to print the node's data
+    void printNode() {
+        cout << this->data;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head; 
+    Node* tail; 
+
+    // Default constructor
+    LinkedList() {
+        this->head = NULL;
+        this->tail = NULL;
+    }
+
+    // Constructor to initialize linked list from a string
+    LinkedList(string data) {
+        this->head = NULL;
+        this->tail = NULL;
+        int n = data.size();
+        int block_size = 9; // Each node will store a maximum of 9 digits
+        while (n > 0) {
+            // Adding blocks of 9 characters
+            this->prependNode(data.substr(max(0, n - block_size), block_size));
+            n -= block_size;
+        }
+    }
+
+    // Function to prepend a new node with given data at the head of the list
+    void prependNode(string data) {
+        Node* newNode = new Node(data);
+        if (this->head == NULL) { 
+            this->head = newNode;
+            this->tail = newNode;
+        } else { 
+            newNode->next = this->head;
+            this->head->prev = newNode;
+            this->head = newNode;
+        }
+    }
+
+    // Function to print the entire linked list
+    void printList() {
+        Node* temp = this->head;
+        while (temp != NULL) {
+            temp->printNode();
+            cout << " "; 
+            temp = temp->next;
+        }
+        cout << endl; 
+    }
+
+    // Method to check if the number represented by the linked list is prime
+    bool isPrime() {
+        unsigned long long num = 0;
+        Node* current = head;
+        unsigned long long place = 1;
+
+        // now I amm Converting the linked list to a number
+        while (current != NULL) {
+            num += current->data * place;
+            place *= 1000000000; // Each node contains at most 9 digits
+            current = current->next;
+        }
+
+        // Primality test
+        if (num < 2) return false; 
+        for (unsigned long long i = 2; i <= sqrt(num); i++) {
+            if (num % i == 0) return false; // not prime
+        }
+        return true; //  prime
+    }
+};
 
 int main() {
-    srand(static_cast<unsigned int>(time(0))); // Seed for randomness
 
-    LinkedList list;
-    for (int i = 0; i < 16; ++i) {
-        uint64_t random_value = rand() % UINT64_MAX; // Generating a random 64-bit value
-        list.append(random_value); 
+    string inputNumber;
+    cout << "Enter a large number (up to 30 digits): ";
+    cin >> inputNumber;
+
+    LinkedList list(inputNumber);
+    list.printList();
+
+    if (list.isPrime()) {
+        cout << "The number is prime." << endl;
+    } else {
+        cout << "The number is not prime." << endl;
     }
 
-    string large_number = format_large_number(list); //  linked list into a string
-    cout << "Input: A random 1024-bit number is represented as:\n" << large_number << endl;
-
-    bool prime_result = is_prime(list); // Checking if the generated number is prime
-    cout << "Output: " << (prime_result ? "True (the number is prime)" : "False (the number is not prime)") << endl;
-
-    return 0; 
+    return 0;
 }
