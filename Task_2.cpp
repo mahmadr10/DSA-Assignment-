@@ -110,7 +110,7 @@ public:
 
 int main() {
     string inputNumber;
-    cout << "Enter a large number (309 digits): ";
+    cout << "Enter a large number (max 309 digits): ";
     cin >> inputNumber;
 
     LinkedList list(inputNumber);
