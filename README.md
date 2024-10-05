@@ -30,3 +30,29 @@ OUTPUT:
 ![image](https://github.com/user-attachments/assets/c8e4b4c4-acf9-4904-bd5b-a8fe87101921)
 ![image](https://github.com/user-attachments/assets/20cdb5a1-6335-4b90-9596-4a955a1aaeba)
 
+
+
+TASK 2:
+
+1024-bit Number Primality Test
+Approach
+This project implements a primality test for a large 1024-bit number represented by a circular linked list. The system generates a random 1024-bit number (comprised of 16 random 64-bit chunks) and tests whether it is a prime number using the Miller-Rabin Primality Test.
+
+Key Steps:
+Random Number Generation: The project creates a random 1024-bit number by generating 16 random 64-bit values. These values are stored in a linked list, and the full 1024-bit number is reconstructed by combining these 64-bit blocks.
+Modular Exponentiation: This function is used as part of the Miller-Rabin test to efficiently compute powers of large numbers modulo another number.
+Miller-Rabin Test: The primality of the generated 1024-bit number is tested using the Miller-Rabin test, a probabilistic test that determines whether a number is composite or probably prime.
+Linked List Representation: The number is stored as a linked list of 64-bit values and is reconstructed from the linked list for the primality test.
+Assumptions
+Random 1024-bit Number: The number is randomly generated using 16 chunks of 64-bit numbers.
+Miller-Rabin Test Iterations: The default number of iterations for the Miller-Rabin test is set to 5 (k = 5).
+Prime Numbers Handling: Small numbers (like 1, 2, and 3) are handled separately as they are edge cases for primality.
+
+GitHub Link:
+
+
+Challenges Faced
+Handling Large Numbers: Reconstructing a large 1024-bit number from a linked list and performing operations on it efficiently presented challenges, especially in ensuring correctness when combining the 64-bit blocks.
+Miller-Rabin Implementation: Implementing the Miller-Rabin test correctly for large numbers required special attention to details such as modular exponentiation and decomposition of numbers for the test.
+Random Number Generation: Ensuring that the random number generator produces truly random and large 64-bit values while dealing with edge cases (like very small or very large values) was a challenge.
+
