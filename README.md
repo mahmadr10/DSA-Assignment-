@@ -19,8 +19,7 @@ Assumptions
 
 GitHub Link:
 
-DSA-Assignment-/Task_1.cpp at main · mahmadr10/DSA-Assignment- (github.com)
-
+https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_1.cpp
 
 Challenges Faced
 1.	Circular Linked List Management: Ensuring correct circular linked list behavior, especially while deleting a process, took some effort, as it was necessary to keep the circular nature intact even after process removal.
