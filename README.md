@@ -36,41 +36,39 @@ OUTPUT:
 
 
 TASK 2:
-Large Number Primality Checker
+
+1024-bit Primality Test with Linked List
 
 Approach
-This program checks whether a large number (up to 30 digits) is prime using a linked list data structure. The linked list is designed to handle numbers that exceed the storage capacity of standard data types. Each node in the linked list stores up to 9 digits of the number.
+The program stores a large number (up to 1024 bits) in a linked list, where each node holds up to 64-bit unsigned integers. This approach ensures that even a very large number can be managed efficiently across multiple nodes in the linked list.
+
 Steps:
-1.	Node Class: Represents a single digit segment of the number and includes methods for initialization, length calculation, and printing.
-2.	LinkedList Class: Manages the linked list of nodes, allowing for:
-o	Prepending new nodes.
-o	Converting the linked list into a full number.
-o	Checking if the constructed number is prime.
-3.	Primality Test: Utilizes a basic algorithm to test primality by checking divisibility from 2 to the square root of the number.
+Number Representation: The input number (up to 1024 bits) is split into smaller chunks, with each chunk stored in a separate node in the linked list. Each node stores a 64-bit number, ensuring that the memory can efficiently hold very large numbers.
+Linked List Structure: The list stores each segment of the number in reverse order to simplify further operations like appending and traversal.
+Primality Test: Once the number is reconstructed from the linked list, the primality check is performed by using a brute force approach, iterating through all possible divisors up to the square root of the number.
 Assumptions
-•	The input number is provided as a string to handle its large size.
-•	The number entered is non-negative and can be up to 30 digits long.
-•	The program does not handle negative numbers or non-integer inputs.
+The number entered is a positive integer.
+The number is represented as a string, allowing for flexibility in handling very large numbers.
+We assume that the number is split into chunks of up to 9 digits in each node for manageable storage, as unsigned integers are used.
+The primality test checks divisibility starting from 2 up to the square root of the number.
 
-GitHub Link
-
-https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp
-
+GitHub: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp  
 
 
 Challenges Faced
-1.	Memory Management: Ensuring proper allocation and deallocation of nodes in the linked list to avoid memory leaks.
-2.	Input Validation: Handling very large strings representing numbers while checking for validity.
-3.	Efficiency: The naive primality test can be slow for very large numbers, but since we restrict input size, it is manageable.
-
-
+Memory Management: Storing a very large number in a linked list efficiently without exceeding memory limits was tricky. Managing the number using chunks of data in each node helped in overcoming this.
+Reconstructing the Number: Reconstructing the number from the linked list across multiple nodes while ensuring no precision loss was a key challenge.
+Primality Check for Large Numbers: Testing the primality of a 1024-bit number is computationally intensive. Although a brute force method works for smaller numbers, an optimized primality test like Miller-Rabin may be required for much larger numbers.
 
 OUTPUTS:
 
 
-![image](https://github.com/user-attachments/assets/87f1a7dd-714e-48c2-9ad8-fac397c61fb0)
 
-![image](https://github.com/user-attachments/assets/a421a767-8635-433a-8493-341fd038a176)
+![image](https://github.com/user-attachments/assets/abf5545f-8c76-48be-92c7-6e7a0acc56b6)
+
+
+![image](https://github.com/user-attachments/assets/de916459-a519-4b07-bbca-a3b29f0d305e)
+
 
 
 
