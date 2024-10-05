@@ -35,30 +35,37 @@ OUTPUT:
 
 TASK 2:
 
-1024-bit Number Primality Test
+ Large Number Primality Checker
 Approach
-This project implements a primality test for a large 1024-bit number represented by a circular linked list. The system generates a random 1024-bit number (comprised of 16 random 64-bit chunks) and tests whether it is a prime number using the Miller-Rabin Primality Test.
+This program checks whether a large number (up to 30 digits) is prime using a linked list data structure. The linked list is designed to handle numbers that exceed the storage capacity of standard data types. Each node in the linked list stores up to 9 digits of the number.
 
-Key Steps:
-Random Number Generation: The project creates a random 1024-bit number by generating 16 random 64-bit values. These values are stored in a linked list, and the full 1024-bit number is reconstructed by combining these 64-bit blocks.
-Modular Exponentiation: This function is used as part of the Miller-Rabin test to efficiently compute powers of large numbers modulo another number.
-Miller-Rabin Test: The primality of the generated 1024-bit number is tested using the Miller-Rabin test, a probabilistic test that determines whether a number is composite or probably prime.
-Linked List Representation: The number is stored as a linked list of 64-bit values and is reconstructed from the linked list for the primality test.
+Steps:
+Node Class: Represents a single digit segment of the number and includes methods for initialization, length calculation, and printing.
+LinkedList Class: Manages the linked list of nodes, allowing for:
+Prepending new nodes.
+Converting the linked list into a full number.
+Checking if the constructed number is prime.
+Primality Test: Utilizes a basic algorithm to test primality by checking divisibility from 2 to the square root of the number.
 Assumptions
-Random 1024-bit Number: The number is randomly generated using 16 chunks of 64-bit numbers.
-Miller-Rabin Test Iterations: The default number of iterations for the Miller-Rabin test is set to 5 (k = 5).
-Prime Numbers Handling: Small numbers (like 1, 2, and 3) are handled separately as they are edge cases for primality.
+The input number is provided as a string to handle its large size.
+The number entered is non-negative and can be up to 30 digits long.
+The program does not handle negative numbers or non-integer inputs.
 
-GitHub Link: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp
+Publicly Accessible GitHub Link: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp
 
 
 Challenges Faced
-Handling Large Numbers: Reconstructing a large 1024-bit number from a linked list and performing operations on it efficiently presented challenges, especially in ensuring correctness when combining the 64-bit blocks.
-Miller-Rabin Implementation: Implementing the Miller-Rabin test correctly for large numbers required special attention to details such as modular exponentiation and decomposition of numbers for the test.
-Random Number Generation: Ensuring that the random number generator produces truly random and large 64-bit values while dealing with edge cases (like very small or very large values) was a challenge.
+Memory Management: Ensuring proper allocation and deallocation of nodes in the linked list to avoid memory leaks.
+Input Validation: Handling very large strings representing numbers while checking for validity.
+Efficiency: The naive primality test can be slow for very large numbers, but since we restrict input size, it is manageable.
 
 OUTPUT:
 
-![image](https://github.com/user-attachments/assets/0592d5be-9a25-41e4-8c95-bab6f81b9a6a)
+
+![image](https://github.com/user-attachments/assets/87f1a7dd-714e-48c2-9ad8-fac397c61fb0)
+
+
+![image](https://github.com/user-attachments/assets/a421a767-8635-433a-8493-341fd038a176)
+
 
 
