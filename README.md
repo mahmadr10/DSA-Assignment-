@@ -18,6 +18,7 @@ New Process Arrival: A new process arrives after the second cycle with a specifi
 Fixed Number of Cycles: The simulation is run for a set number of cycles, specified by the user.
 Process Completion: If a process’s remaining time reaches zero or below, it is considered complete and removed from the queue.
 
+GitHub Link: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_1.cpp
 
 Challenges Faced
 Circular Linked List Management: Ensuring correct circular linked list behavior, especially while deleting a process, took some effort, as it was necessary to keep the circular nature intact even after process removal.
@@ -48,11 +49,16 @@ Random 1024-bit Number: The number is randomly generated using 16 chunks of 64-b
 Miller-Rabin Test Iterations: The default number of iterations for the Miller-Rabin test is set to 5 (k = 5).
 Prime Numbers Handling: Small numbers (like 1, 2, and 3) are handled separately as they are edge cases for primality.
 
-GitHub Link:
+GitHub Link: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp
 
 
 Challenges Faced
 Handling Large Numbers: Reconstructing a large 1024-bit number from a linked list and performing operations on it efficiently presented challenges, especially in ensuring correctness when combining the 64-bit blocks.
 Miller-Rabin Implementation: Implementing the Miller-Rabin test correctly for large numbers required special attention to details such as modular exponentiation and decomposition of numbers for the test.
 Random Number Generation: Ensuring that the random number generator produces truly random and large 64-bit values while dealing with edge cases (like very small or very large values) was a challenge.
+
+OUTPUT:
+
+![image](https://github.com/user-attachments/assets/0592d5be-9a25-41e4-8c95-bab6f81b9a6a)
+
 
