@@ -17,6 +17,7 @@ Assumptions
 •	Fixed Number of Cycles: The simulation is run for a set number of cycles, specified by the user.
 •	Process Completion: If a process’s remaining time reaches zero or below, it is considered complete and removed from the queue.
 
+
 GitHub Link:
 
 https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_1.cpp
@@ -35,39 +36,41 @@ OUTPUT:
 
 
 
-TASK 2:
+TASK-2
 
-1024-bit Primality Test with Linked List
+1024 Bit Number Primality Check
 
 Approach
-The program stores a large number (up to 1024 bits) in a linked list, where each node holds up to 64-bit unsigned integers. This approach ensures that even a very large number can be managed efficiently across multiple nodes in the linked list.
+This project involves creating a linked list to store a large random number (up to 1024 bits or 309 digits) and checking its primality. The approach includes:
 
-Steps:
-Number Representation: The input number (up to 1024 bits) is split into smaller chunks, with each chunk stored in a separate node in the linked list. Each node stores a 64-bit number, ensuring that the memory can efficiently hold very large numbers.
-Linked List Structure: The list stores each segment of the number in reverse order to simplify further operations like appending and traversal.
-Primality Test: Once the number is reconstructed from the linked list, the primality check is performed by using a brute force approach, iterating through all possible divisors up to the square root of the number.
+Linked List Structure: Each node in the linked list holds a substring of the large number (up to 19 digits) to facilitate easy management and processing of large numbers.
+Primality Testing: The entire number is checked for primality using the isPrimeString function, which utilizes trial division for efficiency.
+Finding Smaller Primes: The program also finds and displays smaller prime numbers (up to 19 digits) contained within the large number.
 Assumptions
-The number entered is a positive integer.
-The number is represented as a string, allowing for flexibility in handling very large numbers.
-We assume that the number is split into chunks of up to 9 digits in each node for manageable storage, as unsigned integers are used.
-The primality test checks divisibility starting from 2 up to the square root of the number.
+The input number will be valid and contain only numeric characters.
+The number will be less than or equal to 309 digits.
+Each node can hold a maximum of 19 digits.
+The user understands that the input number may not be prime.
 
-GitHub: https://github.com/mahmadr10/DSA-Assignment-/blob/main/Task_2.cpp  
+GitHub Link
+DSA-Assignment-/Task_2.cpp at main · mahmadr10/DSA-Assignment- · GitHub
+
 
 
 Challenges Faced
-Memory Management: Storing a very large number in a linked list efficiently without exceeding memory limits was tricky. Managing the number using chunks of data in each node helped in overcoming this.
-Reconstructing the Number: Reconstructing the number from the linked list across multiple nodes while ensuring no precision loss was a key challenge.
-Primality Check for Large Numbers: Testing the primality of a 1024-bit number is computationally intensive. Although a brute force method works for smaller numbers, an optimized primality test like Miller-Rabin may be required for much larger numbers.
+Handling Large Numbers: Managing very large numbers (beyond typical integer limits) required careful implementation of string operations.
+Efficiency: Optimizing the primality test to avoid excessive computation for large numbers was a challenge.
+Substring Extraction: Efficiently checking all possible substrings for primality while avoiding duplicates and leading zeros.
+
 
 OUTPUTS:
 
 
 
-![image](https://github.com/user-attachments/assets/abf5545f-8c76-48be-92c7-6e7a0acc56b6)
+![image](https://github.com/user-attachments/assets/7e15c59a-7196-4fb3-89a1-86c6d0189964)
+![image](https://github.com/user-attachments/assets/ce27a664-54e3-4efd-8735-3f0be12229fe)
 
 
-![image](https://github.com/user-attachments/assets/de916459-a519-4b07-bbca-a3b29f0d305e)
 
 
 
