@@ -1,24 +1,21 @@
-
 // Muhammad Ahmad
 // 461348
 // BSDS 1-A
 
 #include <iostream>
 #include <string>
-#include <cstdint>
 #include <cmath>
-#include <stdexcept>
+#include <unordered_set>
 
 using namespace std;
 
 class Node {
 public:
-    uint64_t data; // 64-bit integer
+    string data; // Here I amm storing the chunk as a string
     Node* next;
     Node* prev;
 
-    // Constructor to initialize node with 64-bit integer data
-    Node(uint64_t data) {
+    Node(string data) {
         this->data = data;
         this->next = NULL;
         this->prev = NULL;
@@ -30,28 +27,24 @@ public:
     Node* head;
     Node* tail;
 
-    // Default constructor
     LinkedList() {
         this->head = NULL;
         this->tail = NULL;
     }
 
-    // Constructor to initialize linked list from a string of large numbers
     LinkedList(string data) {
         this->head = NULL;
         this->tail = NULL;
         int n = data.size();
         int block_size = 19; // Each node will store a maximum of 19 digits 
         while (n > 0) {
-            // Adding blocks of 19 digits
             string block = data.substr(max(0, n - block_size), block_size);
-            prependNode(stoull(block)); // Converting string block to 64-bit number
+            prependNode(block); 
             n -= block_size;
         }
     }
 
-    // Function to prepend a new node with given 64-bit data at the head of the list
-    void prependNode(uint64_t data) {
+    void prependNode(string data) {
         Node* newNode = new Node(data);
         if (this->head == NULL) {
             this->head = newNode;
@@ -63,69 +56,74 @@ public:
         }
     }
 
-    // Function to print the linked list
-    void printList() {
-        Node* temp = this->head;
+    // Concatenating chunks back into a single string
+    string toString() {
+        string result;
+        Node* temp = this->tail; 
         while (temp != NULL) {
-            cout << temp->data << " ";
-            temp = temp->next;
-        }
-        cout << endl;
-    }
-
-    // Modular exponentiation function 
-    uint64_t modExp(uint64_t base, uint64_t exp, uint64_t mod) {
-        uint64_t result = 1;
-        base = base % mod;
-        while (exp > 0) {
-            if (exp % 2 == 1)
-                result = (result * base) % mod;
-            exp = exp >> 1;
-            base = (base * base) % mod;
+            result += temp->data;
+            temp = temp->prev;
         }
         return result;
     }
 
-    // Miller-Rabin primality test on each node 
-    bool isPrime(uint64_t n, int iterations) {
-        if (n < 2) return false;
-        if (n != 2 && n % 2 == 0) return false;
+    // Checking if a large number represented as a string is prime
+    bool isPrimeString(const string& numStr) {
+        if (numStr == "1" || numStr.empty()) return false;
+        if (numStr == "2") return true;
+        if ((numStr.back() - '0') % 2 == 0) return false; 
 
-        uint64_t s = n - 1;
-        while (s % 2 == 0) s /= 2;
-
-        for (int i = 0; i < iterations; i++) {
-            uint64_t a = rand() % (n - 1) + 1;
-            uint64_t temp = s;
-            uint64_t mod = modExp(a, temp, n);
-            while (temp != n - 1 && mod != 1 && mod != n - 1) {
-                mod = (mod * mod) % n;
-                temp *= 2;
+        // Checking divisibility by odd numbers up to the square root
+        uint64_t sqrtNum = static_cast<uint64_t>(sqrt(stod(numStr)));
+        for (uint64_t i = 3; i <= sqrtNum; i += 2) {
+            if (isDivisible(numStr, to_string(i))) {
+                return false;
             }
-            if (mod != n - 1 && temp % 2 == 0) return false;
         }
         return true;
+    }
+
+    // Checking if numStr is divisible by divisorStr
+    bool isDivisible(const string& numStr, const string& divisorStr) {
+        // Using long division algorithm to check for divisibility
+        uint64_t remainder = 0;
+        for (char digit : numStr) {
+            remainder = remainder * 10 + (digit - '0');
+            remainder %= stoi(divisorStr);
+        }
+        return remainder == 0;
+    }
+
+    // Now I amm finding and displaying smaller prime numbers from the large number
+    void findAndDisplaySmallPrimes(const string& largeNumber) {
+        unordered_set<string> foundPrimes;
+        int length = largeNumber.length();
+
+        // Checking all substrings up to 19 digits long
+        for (int i = 0; i < length; ++i) {
+            for (int j = i + 1; j <= length && j - i <= 19; ++j) {
+                string sub = largeNumber.substr(i, j - i);
+                if (sub[0] != '0' && foundPrimes.find(sub) == foundPrimes.end() && isPrimeString(sub)) {
+                    cout << "Smaller prime number found in the large number: " << sub << endl;
+                    foundPrimes.insert(sub);
+                }
+            }
+        }
     }
 };
 
 int main() {
     string inputNumber;
-    cout << "Enter a large number (max 309 digits): ";
+    cout << "Enter a large number: ";
     cin >> inputNumber;
 
     LinkedList list(inputNumber);
-    list.printList();
 
-    // Checking each node's value for primality
-    Node* current = list.head;
-    bool prime = true;
-    while (current != NULL) {
-        if (!list.isPrime(current->data, 5)) {
-            prime = false;
-            break;
-        }
-        current = current->next;
-    }
+    // Regenerating the entire number from the chunks
+    string concatenatedNumber = list.toString();
+
+    // Checking if the complete number is prime
+    bool prime = list.isPrimeString(concatenatedNumber);
 
     if (prime) {
         cout << "The large number is prime." << endl;
@@ -133,6 +131,8 @@ int main() {
         cout << "The large number is not prime." << endl;
     }
 
+    // Finding and displaying smaller prime numbers
+    list.findAndDisplaySmallPrimes(concatenatedNumber);
+
     return 0;
 }
-
